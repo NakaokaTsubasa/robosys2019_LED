@@ -29,6 +29,7 @@ void dash(int sleep_count){
 	gpio_base[10] = 1 << 25;
 	msleep(sleep_count * 100);
 }
+
 void char_spacing(int sleep_count){
 	msleep(sleep_count * 2 * 100);
 }

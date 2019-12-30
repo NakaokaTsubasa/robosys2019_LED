@@ -1,1 +1,0 @@
-cmd_/home/pi/robosys2019_LED/myled.ko := ld -r  -EL -T ./scripts/module-common.lds -T ./arch/arm/kernel/module.lds  --build-id  -o /home/pi/robosys2019_LED/myled.ko /home/pi/robosys2019_LED/myled.o /home/pi/robosys2019_LED/myled.mod.o ;  true

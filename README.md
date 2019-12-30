@@ -3,7 +3,7 @@
 ## 概要
 入力する値(0,1)によってLEDが点灯・消灯し、`led.sh`を実行することによって入力したアルファベットのモールス信号が発信されます。
 ## 動画
-- URL − https://youtu.be/8i_qCVGxL5g
+- URL − https://youtu.be/zCBZ2dDzIzU
 ## 使用するもの
 - Raspberry Pi 3 Model B+
   - Raspbian

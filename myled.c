@@ -4,27 +4,71 @@
 #include <linux/device.h>
 #include <linux/uaccess.h>
 #include <linux/io.h>
+#include <linux/delay.h>
 
 MODULE_AUTHOR("Tsubasa Nakaoka");
 MODULE_DESCRIPTION("driver for LED control");
 MODULE_LICENSE("GPL");
-MODULE_VERSION("0.0.1");
+MODULE_VERSION("3.0");
 
 static dev_t dev;
 static struct cdev cdv;
 static struct class *cls = NULL;
 static volatile u32 *gpio_base = NULL;  //アドレスをマッピングするための配列をグローバルで定義
 
+void dot(int sleep_count){
+	gpio_base[7] = 1 << 25;
+	msleep(sleep_count * 100);
+	gpio_base[10] = 1 << 25;
+	msleep(sleep_count * 100);
+}
+
+void dash(int sleep_count){
+	gpio_base[7] = 1 << 25;
+	msleep(sleep_count * 3 * 100);
+	gpio_base[10] = 1 << 25;
+	msleep(sleep_count * 100);
+}
+void char_spacing(int sleep_count){
+	msleep(sleep_count * 2 * 100);
+}
+
 static ssize_t led_write(struct file* filp, const char* buf, size_t count, loff_t* pos)
 {
-	char c;   //読み込んだ字を入れる変数
+	char c;
+	int time = 4;
 	if(copy_from_user(&c,buf,sizeof(char)))
 		return -EFAULT;
 
-	if(c == '0')
+	if(c == '0'){
 		gpio_base[10] = 1 << 25;
-	else if(c == '1')
+	}
+	else if(c == '1'){
 		gpio_base[7] = 1 << 25;
+	}
+	else if(c == 'u'){
+		dot(time);
+		dot(time);
+		dash(time);
+		char_spacing(time);
+	}
+	else if(c == 'n'){
+		dash(time);
+		dot(time);
+		char_spacing(time);
+	}
+	else if(c == 'k'){
+		dash(time);
+		dot(time);
+		dash(time);
+		char_spacing(time);
+	}
+	else if(c == 'o'){
+		dash(time);
+		dash(time);
+		dash(time);
+		char_spacing(time);
+	}
 	return 1;
 }
 
